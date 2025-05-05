@@ -42,6 +42,7 @@ export default {
     login: {
       login: 'Sign in',
       signUp: 'Sign up',
+      signInWith: 'Sign in with',
       loginDescription: 'We’re so excited to see you again!',
       registerDescription: 'Glad to have you on board!',
       emailLabel: 'Email',
@@ -106,7 +107,8 @@ export default {
       disabled: 'Disable',
       action: 'Action',
       parsingStatus: 'Parsing Status',
-      parsingStatusTip: 'Document parsing time varies based on several factors. Enabling features like Knowledge Graph, RAPTOR, Auto Question Extraction, or Auto Keyword Extraction will significantly increase processing time. If the progress bar stalls, please consult these two FAQs: https://ragflow.io/docs/dev/faq#why-does-my-document-parsing-stall-at-under-one-percent.',
+      parsingStatusTip:
+        'Document parsing time varies based on several factors. Enabling features like Knowledge Graph, RAPTOR, Auto Question Extraction, or Auto Keyword Extraction will significantly increase processing time. If the progress bar stalls, please consult these two FAQs: https://ragflow.io/docs/dev/faq#why-does-my-document-parsing-stall-at-under-one-percent.',
       processBeginAt: 'Begin at',
       processDuration: 'Duration',
       progressMsg: 'Progress',

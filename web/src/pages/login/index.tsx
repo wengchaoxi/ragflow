@@ -1,4 +1,10 @@
-import { useLogin, useRegister } from '@/hooks/login-hooks';
+import { useAuth } from '@/hooks/auth-hooks';
+import {
+  useLogin,
+  useLoginChannels,
+  useLoginWithChannel,
+  useRegister,
+} from '@/hooks/login-hooks';
 import { useSystemConfig } from '@/hooks/system-hooks';
 import { rsaPsw } from '@/utils';
 import { Button, Checkbox, Form, Input } from 'antd';
@@ -7,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 import { Icon, useNavigate } from 'umi';
 import RightPanel from './right-panel';
 
-import { Domain } from '@/constants/common';
 import styles from './index.less';
 
 const Login = () => {
@@ -15,10 +20,24 @@ const Login = () => {
   const navigate = useNavigate();
   const { login, loading: signLoading } = useLogin();
   const { register, loading: registerLoading } = useRegister();
+  const { channels, loading: channelsLoading } = useLoginChannels();
+  const { login: loginWithChannel, loading: loginWithChannelLoading } =
+    useLoginWithChannel();
   const { t } = useTranslation('translation', { keyPrefix: 'login' });
-  const loading = signLoading || registerLoading;
+  const loading =
+    signLoading ||
+    registerLoading ||
+    channelsLoading ||
+    loginWithChannelLoading;
   const { config } = useSystemConfig();
   const registerEnabled = config?.registerEnabled !== 0;
+
+  const { isLogin } = useAuth();
+  useEffect(() => {
+    if (isLogin) {
+      navigate('/knowledge');
+    }
+  }, [isLogin, navigate]);
 
   const changeTitle = () => {
     if (title === 'login' && !registerEnabled) {
@@ -60,9 +79,13 @@ const Login = () => {
       console.log('Failed:', errorInfo);
     }
   };
+
+  const handleLoginWithChannel = async (channel: string) => {
+    await loginWithChannel(channel);
+  };
+
   const formItemLayout = {
     labelCol: { span: 6 },
-    // wrapperCol: { span: 8 },
   };
 
   const toGoogle = () => {
@@ -129,7 +152,7 @@ const Login = () => {
                 <div>
                   {t('signInTip')}
                   <Button type="link" onClick={changeTitle}>
-                    {t('signUp')}
+                    {t('register')}
                   </Button>
                 </div>
               )}
@@ -151,9 +174,30 @@ const Login = () => {
             >
               {title === 'login' ? t('login') : t('continue')}
             </Button>
-            {title === 'login' && (
+            {title === 'login' && channels && channels.length > 0 && (
+              <div className={styles.ssoButtons}>
+                {channels.map((channel) => (
+                  <Button
+                    key={channel.channel}
+                    block
+                    size="large"
+                    onClick={() => handleLoginWithChannel(channel.channel)}
+                    style={{ marginTop: 10 }}
+                  >
+                    <div className="flex items-center">
+                      <Icon
+                        icon={`local:${channel.icon}` as any}
+                        style={{ verticalAlign: 'middle', marginRight: 5 }}
+                      />
+                      {t('signInWith')} {channel.display_name}
+                    </div>
+                  </Button>
+                ))}
+              </div>
+            )}
+            {/* {title === 'login' && (
               <>
-                {/* <Button
+                { <Button
                   block
                   size="large"
                   onClick={toGoogle}
@@ -166,8 +210,8 @@ const Login = () => {
                     />
                     Sign in with Google
                   </div>
-                </Button> */}
-                {location.host === Domain && (
+                </Button> }
+                {location.host !== Domain && (
                   <Button
                     block
                     size="large"
@@ -184,7 +228,7 @@ const Login = () => {
                   </Button>
                 )}
               </>
-            )}
+            )} */}
           </Form>
         </div>
       </div>

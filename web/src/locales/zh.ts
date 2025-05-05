@@ -42,6 +42,7 @@ export default {
     login: {
       login: '登录',
       signUp: '注册',
+      signInWith: '使用第三方登录',
       loginDescription: '很高兴再次见到您！',
       registerDescription: '很高兴您加入！',
       emailLabel: '邮箱',
@@ -105,7 +106,8 @@ export default {
       disabled: '禁用',
       action: '动作',
       parsingStatus: '解析状态',
-      parsingStatusTip: '文本解析的时间取决于诸多因素。如果开启了知识图谱、RAPTOR、自动问题提取、自动关键词提取等功能，时间会更长。如果解析进度条长时间不更新，也可以参考这两条 FAQ：https://ragflow.io/docs/dev/faq#why-does-my-document-parsing-stall-at-under-one-percent。',
+      parsingStatusTip:
+        '文本解析的时间取决于诸多因素。如果开启了知识图谱、RAPTOR、自动问题提取、自动关键词提取等功能，时间会更长。如果解析进度条长时间不更新，也可以参考这两条 FAQ：https://ragflow.io/docs/dev/faq#why-does-my-document-parsing-stall-at-under-one-percent。',
       processBeginAt: '开始于',
       processDuration: '持续时间',
       progressMsg: '进度',
